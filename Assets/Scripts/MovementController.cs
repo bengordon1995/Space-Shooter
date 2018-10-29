@@ -15,6 +15,7 @@ public class MovementController : MonoBehaviour {
 	private float deathAnimStartTime;
 	private float deathAnimTime;
 	public float deathAnimTotalTime;
+	public Animator animator;
 
 	private float rotationZ;
 	private float roll;
@@ -29,8 +30,10 @@ public class MovementController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!dead){
-			roll = Input.GetAxis("Horizontal");
-			pitch = Input.GetAxis("Vertical");
+			roll = Input.GetAxis("Horizontal") * 1.5f;
+			animator.SetFloat("Horizontal",roll); 
+			pitch = Input.GetAxis("Vertical") * 1.5f;
+			animator.SetFloat("Vertical", -1f * pitch);
 		}
 		else{
 			deathAnimTime += Time.deltaTime;
@@ -48,6 +51,7 @@ public class MovementController : MonoBehaviour {
 		pitch = 0f;
 		rigid.AddForce(player.transform.forward * 10f);
 		rigid.velocity = CONSTANT_VELOCITY * (rigid.velocity.normalized);
+
 	}
 
 	void OnCollisionEnter(Collision collision){
